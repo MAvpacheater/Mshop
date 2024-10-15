@@ -475,23 +475,26 @@
     <button class="cart-button" id="cart-button" onclick="showCategory('cart')">🛒 Корзина</button>
 </div>
 
-<!-- Скрипт для керування меню -->
-<script>
-    function openMenu() {
-        document.getElementById("side-menu").style.width = "250px"; // Відкриваємо меню
-    }
+function openMenu() {
+    document.getElementById("side-menu").style.width = "250px";
+}
 
-    function closeMenu() {
-        document.getElementById("side-menu").style.width = "0"; // Закриваємо меню
-    }
+function closeMenu() {
+    document.getElementById("side-menu").style.width = "0";
+}
 
-    function showCategory(category) {
-        var categories = document.getElementsByClassName('category');
-        for (var i = 0; i < categories.length; i++) {
-            categories[i].classList.remove('active');
-        }
-        document.getElementById(category).classList.add('active');
-    }
+function showCategory(category) {
+    let categories = document.querySelectorAll('.category');
+    categories.forEach(function (el) {
+        el.classList.remove('active');
+    });
+    document.getElementById(category).classList.add('active');
+}
+
+function addToCart(product, price) {
+    // Реалізуй функцію додавання товарів у кошик.
+    alert(product + ' додано до корзини!');
+}
 </script>
 
 </body>
