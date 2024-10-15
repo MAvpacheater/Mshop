@@ -108,7 +108,7 @@
             box-shadow: 0 0 25px #00ffcc;
             transform: translateY(-5px);
         }
-        
+
         .product button {
             background-color: transparent;
             color: #fff;
@@ -120,7 +120,7 @@
             text-shadow: 0 0 10px #ff00cc;
             box-shadow: 0 0 15px #ff00cc;
         }
-        
+
         .product button:hover {
             background-color: #ff00cc;
             color: #0d0d0d;
@@ -148,12 +148,12 @@
             margin: 0;
         }
 
-        .category { 
-            display: none; 
+        .category {
+            display: none;
         }
-        
-        .category.active { 
-            display: block; 
+
+        .category.active {
+            display: block;
         }
 
         .cart-button {
@@ -200,25 +200,6 @@
     <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
 </div>
 
-
-<div id="new" class="category">
-    <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-        <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://via.placeholder.com/150" alt="Фігурка 1">
-            <h3>Новинка 1</h3>
-            <p>Ціна: 200 грн</p>
-            <button onclick="addToCart('Фігурка 1', 200)">Додати в корзину</button>
-        </div>
-        <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://via.placeholder.com/150" alt="Фігурка 2">
-            <h3>Новинка 2</h3>
-            <p>Ціна: 220 грн</p>
-            <button onclick="addToCart('Фігурка 2', 220)">Додати в корзину</button>
-        </div>
-    </div>
-</div>
-
-
 <div class="category active" id="keychains">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
@@ -250,7 +231,7 @@
             <h3>Кавоварка</h3>
             <p>Ціна: 25 грн</p>
             <button onclick="addToCart('Кавоварка', 25)">Додати в корзину</button>
-        </div> 
+        </div>
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://cdn.thingiverse.com/assets/9e/f9/c7/83/d9/large_display_2019-11-18_22.08.59.jpg">
             <h3>Гиря</h3>
@@ -262,7 +243,7 @@
             <h3>Star Wars</h3>
             <p>Ціна: 25 грн</p>
             <button onclick="addToCart('Star Wars', 25)">Додати в корзину</button>
-        </div> 
+        </div>
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://s3.eu-central-1.amazonaws.com/telegram.sendpulse.prod/attachments/4aae4205d56150b28e9cf244126dbd0f/694a9ef3-9440-45b1-8aeb-32239c4b0606.jpg" alt="Minecraft tools - молот">
             <h3>Minecraft tools - молот</h3>
@@ -274,13 +255,13 @@
             <h3>Skull - череп</h3>
             <p>Ціна: 25 грн</p>
             <button onclick="addToCart('Skull - череп', 25)">Додати в корзину</button>
-        </div> 
+        </div>
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://makerworld.bblmw.com/makerworld/model/US70acaef8f09414/design/2024-08-07_7c364a3505fda.png?x-oss-process=image/resize,w_1000/format,webp" alt="Shop - coin">
             <h3>Shop - coin</h3>
             <p>Ціна: 5 грн</p>
             <button onclick="addToCart('Shop - coin', 5)">Додати в корзину</button>
-        </div> 
+        </div>
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://cdn.thingiverse.com/renders/c8/3b/29/6c/49/keys_display_large.jpg" alt="Андроїд">
             <h3>Андроїд</h3>
@@ -383,12 +364,12 @@
             <p>Ціна: 20 грн</p>
             <button onclick="addToCart('Ракетка для падел тенісу', 20)">Додати в корзину</button>
         </div>
-    
+
     </div>
 </div>
 
 <div id="swords" class="category">
-       <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://via.placeholder.com/150" alt="Меч 1">
             <h3>Меч 1</h3>
@@ -421,11 +402,13 @@
     </div>
 </div>
 
-<!-- Корзина -->
-<div class="cart" id="cart">
+<div class="cart">
+    <h2>Ваша корзина</h2>
     <div id="cart-items"></div>
-    <p id="total-price">Сума: 0 грн</p>
+    <p id="total-price">Загальна сума: 0 грн</p>
 </div>
+
+<button class="cart-button" onclick="toggleCart()">Корзина</button>
 
 <script>
     let cart = [];
@@ -476,9 +459,5 @@
         updateCart();
     }
 </script>
-</body>
-</html>
-
-
 </body>
 </html>
