@@ -20,6 +20,7 @@
             text-align: center;
         }
 
+        /* Стиль кнопки меню */
         #menu-toggle {
             font-size: 30px;
             cursor: pointer;
@@ -38,7 +39,7 @@
             color: #ff00cc;
         }
 
-        /* Сховане меню, яке буде відкриватись */
+        /* Сховане бокове меню */
         #side-menu {
             height: 100%;
             width: 0;
@@ -186,7 +187,7 @@
     </style>
 </head>
 <body>
-
+<!-- Гамбургер меню -->
 <!-- Гамбургер меню -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
 
@@ -470,7 +471,7 @@
 
         document.getElementById('total-price').innerText = totalPrice + ' грн';
     }
-    <div id="categories">
+<div id="categories">
     <button class="cart-button" id="cart-button" onclick="showCategory('cart')">🛒 Корзина</button>
 </div>
 
@@ -492,5 +493,6 @@
         document.getElementById(category).classList.add('active');
     }
 </script>
+
 </body>
 </html>
