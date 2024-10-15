@@ -13,35 +13,64 @@
             padding: 0;
             color: #fff;
         }
-        
+
         h2 {
             color: #00ffcc;
             text-shadow: 0 0 10px #00ffcc;
             text-align: center;
         }
-        
-        #categories {
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        #categories button {
-            background-color: transparent;
-            color: #fff;
-            border: 2px solid #00ffcc;
-            padding: 10px 20px;
-            margin: 10px 5px;
+
+        #menu-toggle {
+            font-size: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px #00ffcc;
-            box-shadow: 0 0 15px #00ffcc;
+            color: #00ffcc;
+            padding: 10px;
+            text-align: left;
+            background: none;
+            border: none;
+            outline: none;
+            display: inline-block;
+            margin: 10px;
+            transition: color 0.3s ease;
         }
-        
-        #categories button:hover {
-            background-color: #00ffcc;
-            color: #0d0d0d;
-            box-shadow: 0 0 25px #00ffcc, 0 0 50px #00ffcc;
+
+        #menu-toggle:hover {
+            color: #ff00cc;
+        }
+
+        /* Сховане меню, яке буде відкриватись */
+        #side-menu {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #0d0d0d;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        #side-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #00ffcc;
+            display: block;
+            transition: 0.3s;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        #side-menu a:hover {
+            color: #ff00cc;
+        }
+
+        #side-menu .close-btn {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            font-size: 36px;
         }
 
         /* Оновлений код для продукції */
@@ -158,34 +187,16 @@
 </head>
 <body>
 
-<!-- Кнопка для перегляду корзини -->
-<div id="categories">
-    <button onclick="showCategory('new')">Новинки</button>
-    <button class="cart-button" id="cart-button" onclick="showCategory('cart')">🛒 Корзина</button>
-    <button onclick="showCategory('keychains')">Брелки</button>
-    <button onclick="showCategory('swords')">Мечі</button>
-    <button onclick="showCategory('figures')">Фігурки</button>
-</div>
+<!-- Гамбургер меню -->
+<button id="menu-toggle" onclick="openMenu()">☰</button>
 
-<!-- Заголовок категорії -->
-<h2 id="category-title">Новинки</h2>
-
-<!-- Категорії товарів -->
-<div id="new" class="category ">
-    <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-        <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://via.placeholder.com/150" alt="Новинка 1">
-            <h3>Новинка 1</h3>
-            <p>Ціна: 50 грн</p>
-            <button onclick="addToCart('Новинка 1', 50)">Додати в корзину</button>
-        </div>
-         <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://via.placeholder.com/150" alt="Новинка 2">
-            <h3>Новинка 2</h3>
-            <p>Ціна: 70 грн</p>
-            <button onclick="addToCart('Новинка 2', 70)">Додати в корзину</button>
-        </div>
-    </div>
+<!-- Бокове меню -->
+<div id="side-menu">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+    <a href="javascript:void(0)" onclick="showCategory('new')">Новинки</a>
+    <a href="javascript:void(0)" onclick="showCategory('keychains')">Брелки</a>
+    <a href="javascript:void(0)" onclick="showCategory('swords')">Мечі</a>
+    <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
 </div>
 
 <div class="category active" id="keychains">
@@ -458,6 +469,27 @@
         });
 
         document.getElementById('total-price').innerText = totalPrice + ' грн';
+    }
+    <div id="categories">
+    <button class="cart-button" id="cart-button" onclick="showCategory('cart')">🛒 Корзина</button>
+</div>
+
+<!-- Скрипт для керування меню -->
+<script>
+    function openMenu() {
+        document.getElementById("side-menu").style.width = "250px";
+    }
+
+    function closeMenu() {
+        document.getElementById("side-menu").style.width = "0";
+    }
+
+    function showCategory(category) {
+        var categories = document.getElementsByClassName('category');
+        for (var i = 0; i < categories.length; i++) {
+            categories[i].classList.remove('active');
+        }
+        document.getElementById(category).classList.add('active');
     }
 </script>
 
