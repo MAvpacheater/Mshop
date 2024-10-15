@@ -409,93 +409,57 @@
 </div>
 
 <script>
-    const cart = [];
+    let cart = [];
+
+    function openMenu() {
+        document.getElementById("side-menu").style.width = "250px";
+    }
+
+    function closeMenu() {
+        document.getElementById("side-menu").style.width = "0";
+    }
 
     function showCategory(category) {
         const categories = document.querySelectorAll('.category');
-        const title = document.getElementById('category-title');
-        const cartButton = document.getElementById('cart-button');
-
-        categories.forEach(cat => {
-            cat.classList.remove('active');
+        categories.forEach(c => {
+            c.classList.remove('active');
         });
-
         document.getElementById(category).classList.add('active');
-
-        // Оновлення заголовка категорії
-        if (category === 'new') {
-            title.innerText = 'Новинки';
-            cartButton.style.display = 'block'; // Показати кнопку корзини
-        } else if (category === 'keychains') {
-            title.innerText = 'Брелки';
-            cartButton.style.display = 'block'; // Показати кнопку корзини
-        } else if (category === 'swords') {
-            title.innerText = 'Мечі';
-            cartButton.style.display = 'block'; // Показати кнопку корзини
-        } else if (category === 'figures') {
-            title.innerText = 'Фігурки';
-            cartButton.style.display = 'block'; // Показати кнопку корзини
-        } else {
-            title.innerText = 'Корзина';
-            cartButton.style.display = 'none'; // Сховати кнопку кошика при перегляді корзини
-            document.getElementById('cart').style.display = 'block'; // Відобразити корзину
-        }
+        closeMenu();
     }
 
-    function addToCart(itemName, itemPrice) {
-        const itemInCart = cart.find(item => item.name === itemName);
-        if (itemInCart) {
-            itemInCart.quantity++;
-        } else {
-            cart.push({ name: itemName, price: itemPrice, quantity: 1 });
-        }
+    function toggleCart() {
+        const cartDiv = document.querySelector('.cart');
+        cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
+        updateCart();
+    }
 
+    function addToCart(item, price) {
+        cart.push({ item, price });
         updateCart();
     }
 
     function updateCart() {
-        let cartItems = document.getElementById('cart-items');
+        const cartItemsDiv = document.getElementById("cart-items");
+        cartItemsDiv.innerHTML = '';
         let totalPrice = 0;
 
-        cartItems.innerHTML = '';
-
-        cart.forEach(item => {
-            totalPrice += item.price * item.quantity;
-            cartItems.innerHTML += `
-                <div class="cart-item">
-                    <p>${item.name} (x${item.quantity})</p>
-                    <p>${item.price * item.quantity} грн</p>
-                </div>
-            `;
+        cart.forEach((cartItem, index) => {
+            totalPrice += cartItem.price;
+            cartItemsDiv.innerHTML += `<div class="cart-item"><p>${cartItem.item} - ${cartItem.price} грн</p><button onclick="removeFromCart(${index})">Видалити</button></div>`;
         });
 
-        document.getElementById('total-price').innerText = totalPrice + ' грн';
+        document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
     }
-<div id="categories">
-    <button class="cart-button" id="cart-button" onclick="showCategory('cart')">🛒 Корзина</button>
-</div>
 
-function openMenu() {
-    document.getElementById("side-menu").style.width = "250px";
-}
-
-function closeMenu() {
-    document.getElementById("side-menu").style.width = "0";
-}
-
-function showCategory(category) {
-    let categories = document.querySelectorAll('.category');
-    categories.forEach(function (el) {
-        el.classList.remove('active');
-    });
-    document.getElementById(category).classList.add('active');
-}
-
-function addToCart(product, price) {
-    // Реалізуй функцію додавання товарів у кошик.
-    alert(product + ' додано до корзини!');
-}
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
 </script>
+</body>
+</html>
+
 
 </body>
 </html>
