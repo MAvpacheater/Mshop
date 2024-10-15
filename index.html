@@ -48,7 +48,7 @@
             left: 0;
             background-color: #0d0d0d;
             overflow-x: hidden;
-            transition: 0.5s;
+            transition: width 0.5s ease;
             padding-top: 60px;
         }
 
@@ -477,11 +477,11 @@
 <!-- Скрипт для керування меню -->
 <script>
     function openMenu() {
-        document.getElementById("side-menu").style.width = "250px";
+        document.getElementById("side-menu").style.width = "250px"; // Відкриваємо меню
     }
 
     function closeMenu() {
-        document.getElementById("side-menu").style.width = "0";
+        document.getElementById("side-menu").style.width = "0"; // Закриваємо меню
     }
 
     function showCategory(category) {
@@ -492,6 +492,5 @@
         document.getElementById(category).classList.add('active');
     }
 </script>
-
 </body>
 </html>
