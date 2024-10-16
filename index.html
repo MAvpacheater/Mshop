@@ -430,34 +430,50 @@
         closeMenu();
     }
 
-    function toggleCart() {
-        const cartDiv = document.querySelector('.cart');
-        cartDiv.style.display = cartDiv.style.display === 'block' ? 'none' : 'block';
-        updateCart();
+let cart = [];
+
+function addToCart(item, price) {
+    const existingItem = cart.find(cartItem => cartItem.item === item);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ item, price, quantity: 1 });
     }
+    updateCart();
+}
 
-    function addToCart(item, price) {
-        cart.push({ item, price });
-        updateCart();
-    }
+function updateCart() {
+    const cartItemsDiv = document.getElementById("cart-items");
+    cartItemsDiv.innerHTML = '';
+    let totalPrice = 0;
 
-    function updateCart() {
-        const cartItemsDiv = document.getElementById("cart-items");
-        cartItemsDiv.innerHTML = '';
-        let totalPrice = 0;
+    cart.forEach((cartItem, index) => {
+        totalPrice += cartItem.price * cartItem.quantity;
+        cartItemsDiv.innerHTML += `
+            <div class="cart-item">
+                <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
+                <button onclick="removeOneFromCart(${index})">-1</button>
+                <button onclick="removeFromCart(${index})">Видалити</button>
+            </div>`;
+    });
 
-        cart.forEach((cartItem, index) => {
-            totalPrice += cartItem.price;
-            cartItemsDiv.innerHTML += `<div class="cart-item"><p>${cartItem.item} - ${cartItem.price} грн</p><button onclick="removeFromCart(${index})">Видалити</button></div>`;
-        });
+    document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
+}
 
-        document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
-    }
-
-    function removeFromCart(index) {
+function removeOneFromCart(index) {
+    if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+    } else {
         cart.splice(index, 1);
-        updateCart();
     }
+    updateCart();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
 </script>
 </body>
 </html>
