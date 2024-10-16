@@ -187,8 +187,7 @@
     </style>
 </head>
 <body>
-<!-- Гамбургер меню -->
-<!-- Гамбургер меню -->
+<!-- Кнопка для відображення корзини -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
 
 <!-- Бокове меню -->
@@ -198,6 +197,14 @@
     <a href="javascript:void(0)" onclick="showCategory('keychains')">Брелки</a>
     <a href="javascript:void(0)" onclick="showCategory('swords')">Мечі</a>
     <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
+    <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> <!-- Додаємо кошик як категорію -->
+</div>
+
+<!-- Категорія Корзина -->
+<div id="cart" class="category">
+    <h2>Ваш кошик</h2>
+    <div id="cart-items"></div>
+    <p id="total-price">Загальна сума: 0 грн</p>
 </div>
 
 <div class="category active" id="keychains">
@@ -427,53 +434,53 @@
             c.classList.remove('active');
         });
         document.getElementById(category).classList.add('active');
+        if (category === 'cart') {
+            updateCart();  // Оновлюємо кошик при відкритті
+        }
         closeMenu();
     }
 
-let cart = [];
-
-function addToCart(item, price) {
-    const existingItem = cart.find(cartItem => cartItem.item === item);
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({ item, price, quantity: 1 });
+    function addToCart(item, price) {
+        const existingItem = cart.find(cartItem => cartItem.item === item);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ item, price, quantity: 1 });
+        }
+        updateCart();
     }
-    updateCart();
-}
 
-function updateCart() {
-    const cartItemsDiv = document.getElementById("cart-items");
-    cartItemsDiv.innerHTML = '';
-    let totalPrice = 0;
+    function updateCart() {
+        const cartItemsDiv = document.getElementById("cart-items");
+        cartItemsDiv.innerHTML = '';
+        let totalPrice = 0;
 
-    cart.forEach((cartItem, index) => {
-        totalPrice += cartItem.price * cartItem.quantity;
-        cartItemsDiv.innerHTML += `
-            <div class="cart-item">
-                <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
-                <button onclick="removeOneFromCart(${index})">-1</button>
-                <button onclick="removeFromCart(${index})">Видалити</button>
-            </div>`;
-    });
+        cart.forEach((cartItem, index) => {
+            totalPrice += cartItem.price * cartItem.quantity;
+            cartItemsDiv.innerHTML += `
+                <div class="cart-item">
+                    <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
+                    <button onclick="removeOneFromCart(${index})">-1</button>
+                    <button onclick="removeFromCart(${index})">Видалити</button>
+                </div>`;
+        });
 
-    document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
-}
+        document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
+    }
 
-function removeOneFromCart(index) {
-    if (cart[index].quantity > 1) {
-        cart[index].quantity -= 1;
-    } else {
+    function removeOneFromCart(index) {
+        if (cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
+        } else {
+            cart.splice(index, 1);
+        }
+        updateCart();
+    }
+
+    function removeFromCart(index) {
         cart.splice(index, 1);
+        updateCart();
     }
-    updateCart();
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-}
-
 </script>
 </body>
 </html>
