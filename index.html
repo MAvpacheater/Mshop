@@ -128,54 +128,12 @@
             transform: translateY(-3px);
         }
 
-        .cart {
-            display: none; /* Сховано за замовчуванням */
-            background-color: #1a1a1a;
-            border: 2px solid #00ffcc;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px #00ffcc;
-            margin: 10px;
-        }
-
-        .cart-item {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .cart-item p {
-            margin: 0;
-        }
-
         .category {
             display: none;
         }
 
         .category.active {
             display: block;
-        }
-
-        .cart-button {
-            position: absolute;
-            top: 30px; /* Перемістив кнопку корзини нижче */
-            right: 0;
-            background-color: transparent;
-            color: #fff;
-            border: 2px solid #ffcc00;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-right: 10px;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            text-shadow: 0 0 10px #ffcc00;
-            box-shadow: 0 0 15px #ffcc00;
-        }
-
-        .cart-button:hover {
-            background-color: #ffcc00;
-            color: #0d0d0d;
-            box-shadow: 0 0 25px #ffcc00, 0 0 50px #ffcc00;
         }
 
         /* Стиль для загальної суми */
@@ -187,7 +145,7 @@
     </style>
 </head>
 <body>
-<!-- Кнопка для відображення корзини -->
+<!-- Гамбургер меню -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
 
 <!-- Бокове меню -->
@@ -197,16 +155,15 @@
     <a href="javascript:void(0)" onclick="showCategory('keychains')">Брелки</a>
     <a href="javascript:void(0)" onclick="showCategory('swords')">Мечі</a>
     <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
-    <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> <!-- Додаємо кошик як категорію -->
+    <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> <!-- Кнопка для відображення корзини -->
 </div>
 
 <!-- Категорія Корзина -->
 <div id="cart" class="category">
-    <h2>Ваш кошик</h2>
+    <h2>Ваша корзина</h2>
     <div id="cart-items"></div>
     <p id="total-price">Загальна сума: 0 грн</p>
 </div>
-
 <div class="category active" id="keychains">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
@@ -409,11 +366,6 @@
     </div>
 </div>
 
-<div class="cart">
-    <h2>Ваша корзина</h2>
-    <div id="cart-items"></div>
-    <p id="total-price">Загальна сума: 0 грн</p>
-</div>
 
 <button class="cart-button" onclick="toggleCart()">Корзина</button>
 
@@ -461,7 +413,6 @@
                 <div class="cart-item">
                     <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
                     <button onclick="removeOneFromCart(${index})">-1</button>
-                    <button onclick="removeFromCart(${index})">Видалити</button>
                 </div>`;
         });
 
@@ -474,11 +425,6 @@
         } else {
             cart.splice(index, 1);
         }
-        updateCart();
-    }
-
-    function removeFromCart(index) {
-        cart.splice(index, 1);
         updateCart();
     }
 </script>
