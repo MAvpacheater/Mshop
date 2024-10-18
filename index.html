@@ -142,6 +142,17 @@
             font-weight: bold;
             text-shadow: 0 0 10px #00ffcc;
         }
+        #telegram-login-button {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        #telegram-login-button iframe {
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+
     </style>
 </head>
 <body>
@@ -379,6 +390,20 @@
 
 
 
+<!-- Кабінет -->
+<div id="cabinet" class="category">
+    <h2>Кабінет</h2>
+    <div id="telegram-login-button">
+        <script async src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="M3dmodelsellbot" 
+            data-size="large" 
+            data-auth-url="https://mavpacheater.github.io/Mshop/"
+            data-request-access="write">
+        </script>
+    </div>
+    <p id="saved-items">Збережені товари: немає</p>
+    <button onclick="saveCart()">Зберегти товари</button>
+</div>
 
 <script>
     let cart = [];
