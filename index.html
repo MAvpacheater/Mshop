@@ -145,6 +145,9 @@
     </style>
 </head>
 <body>
+<button id="google-login" onclick="loginWithGoogle()">Увійти через Google</button>
+<button id="telegram-login" onclick="loginWithTelegram()">Увійти через Telegram</button>
+
 <!-- Гамбургер меню -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
 
@@ -156,7 +159,9 @@
     <a href="javascript:void(0)" onclick="showCategory('swords')">Мечі</a>
     <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
     <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> <!-- Кнопка для відображення корзини -->
+    <a href="javascript:void(0)" onclick="showCategory('cabinet')">Кабінет</a>
 </div>
+
 
 <!-- Категорія Корзина -->
 <div id="cart" class="category">
@@ -164,6 +169,14 @@
     <div id="cart-items"></div>
     <p id="total-price">Загальна сума: 0 грн</p>
 </div>
+<!-- Кабінет -->
+<div id="cabinet" class="category">
+    <h2>Кабінет</h2>
+    <p id="saved-items">Збережені товари: немає</p>
+    <button onclick="saveCart()">Зберегти товари</button>
+</div>
+
+
 <div class="category active" id="keychains">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
@@ -427,6 +440,49 @@
         }
         updateCart();
     }
+    // Симуляція авторизації
+let isLoggedIn = false;
+
+function loginWithGoogle() {
+    // Реалізувати вхід через Google OAuth
+    isLoggedIn = true; 
+    alert("Успішно увійшли через Google!");
+    showCategory('cabinet');
+}
+
+function loginWithTelegram() {
+    // Реалізувати вхід через Telegram API
+    isLoggedIn = true; 
+    alert("Успішно увійшли через Telegram!");
+    showCategory('cabinet');
+}
+
+function saveCart() {
+    if (!isLoggedIn) {
+        alert("Спочатку увійдіть в акаунт!");
+        return;
+    }
+
+    localStorage.setItem('savedCart', JSON.stringify(cart));
+    alert("Товари збережені в кабінеті.");
+}
+
+function loadSavedItems() {
+    const savedCart = JSON.parse(localStorage.getItem('savedCart')) || [];
+    const savedItemsDiv = document.getElementById("saved-items");
+
+    if (savedCart.length === 0) {
+        savedItemsDiv.innerText = "Збережені товари: немає";
+    } else {
+        savedItemsDiv.innerHTML = '';
+        savedCart.forEach(item => {
+            savedItemsDiv.innerHTML += `<p>${item.item} - ${item.price} грн (шт: ${item.quantity})</p>`;
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadSavedItems);
+
 </script>
 </body>
 </html>
