@@ -156,7 +156,6 @@
     </style>
 </head>
 <body>
-<button id="telegram-login" onclick="loginWithTelegram()">Увійти через Telegram</button>
 
 <!-- Гамбургер меню -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
@@ -406,92 +405,75 @@
 </div>
 
 <script>
-    let cart = [];
-
+    // Функція для відкриття бокового меню
     function openMenu() {
         document.getElementById("side-menu").style.width = "250px";
     }
 
+    // Функція для закриття бокового меню
     function closeMenu() {
         document.getElementById("side-menu").style.width = "0";
     }
 
-    function showCategory(category) {
-        const categories = document.querySelectorAll('.category');
-        categories.forEach(c => {
-            c.classList.remove('active');
-        });
-        document.getElementById(category).classList.add('active');
-        if (category === 'cart') {
-            updateCart();  // Оновлюємо кошик при відкритті
-        }
-        closeMenu();
+    // Кошик
+    let cart = [];
+    
+    // Функція для додавання товару в корзину
+    function addToCart(productName, price) {
+        const product = { name: productName, price: price };
+        cart.push(product);
+        displayCartItems();
+        updateTotalPrice();
     }
 
-    function addToCart(item, price) {
-        const existingItem = cart.find(cartItem => cartItem.item === item);
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ item, price, quantity: 1 });
-        }
-        updateCart();
+    // Відображення товарів у корзині
+    function displayCartItems() {
+        const cartItemsContainer = document.getElementById("cart-items");
+        cartItemsContainer.innerHTML = ""; // Очищаємо попередні товари
+
+        cart.forEach(item => {
+            const cartItem = document.createElement("div");
+            cartItem.innerHTML = `<p>${item.name}: ${item.price} грн</p>`;
+            cartItemsContainer.appendChild(cartItem);
+        });
     }
 
-    function updateCart() {
-        const cartItemsDiv = document.getElementById("cart-items");
-        cartItemsDiv.innerHTML = '';
-        let totalPrice = 0;
-
-        cart.forEach((cartItem, index) => {
-            totalPrice += cartItem.price * cartItem.quantity;
-            cartItemsDiv.innerHTML += `
-                <div class="cart-item">
-                    <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
-                    <button onclick="removeOneFromCart(${index})">-1</button>
-                </div>`;
-        });
-
+    // Оновлення загальної суми
+    function updateTotalPrice() {
+        const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
         document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
     }
 
-    function removeOneFromCart(index) {
-        if (cart[index].quantity > 1) {
-            cart[index].quantity -= 1;
-        } else {
-            cart.splice(index, 1);
-        }
-        updateCart();
-    }
-
-
-function saveCart() {
-    if (!isLoggedIn) {
-        alert("Спочатку увійдіть в акаунт!");
-        return;
-    }
-
-    localStorage.setItem('savedCart', JSON.stringify(cart));
-    alert("Товари збережені в кабінеті.");
-}
-
-function loadSavedItems() {
-    const savedCart = JSON.parse(localStorage.getItem('savedCart')) || [];
-    const savedItemsDiv = document.getElementById("saved-items");
-
-    if (savedCart.length === 0) {
-        savedItemsDiv.innerText = "Збережені товари: немає";
-    } else {
-        savedItemsDiv.innerHTML = '';
-        savedCart.forEach(item => {
-            savedItemsDiv.innerHTML += `<p>${item.item} - ${item.price} грн (шт: ${item.quantity})</p>`;
+    // Перемикання між категоріями
+    function showCategory(categoryId) {
+        const categories = document.querySelectorAll(".category");
+        categories.forEach(category => {
+            if (category.id === categoryId) {
+                category.classList.add("active");
+            } else {
+                category.classList.remove("active");
+            }
         });
     }
-}
 
-document.addEventListener("DOMContentLoaded", loadSavedItems);
+    // Збереження товарів у кабінеті
+    function saveCart() {
+        const savedItemsContainer = document.getElementById("saved-items");
+        if (cart.length > 0) {
+            savedItemsContainer.innerHTML = "Збережені товари:<br>" + cart.map(item => item.name).join(", ");
+        } else {
+            savedItemsContainer.innerHTML = "Збережені товари: немає";
+        }
+    }
 
+    // Функція для входу через Telegram
+    function loginWithTelegram() {
+        // Логіка для входу через Telegram
+        // Використовуйте API для авторизації через Telegram
+        alert("Вхід через Telegram поки що не налаштовано.");
+    }
 </script>
+
 </body>
 </html>
 
