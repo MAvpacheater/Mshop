@@ -142,6 +142,43 @@
             font-weight: bold;
             text-shadow: 0 0 10px #00ffcc;
         }
+        .cart-btn {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #00ffcc;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .cart-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .minus-btn {
+            border-color: #ff00cc;
+            color: #ff00cc;
+            box-shadow: 0 0 10px #ff00cc;
+        }
+        
+        .minus-btn:hover {
+            background-color: #ff00cc;
+            color: #0d0d0d;
+            box-shadow: 0 0 20px #ff00cc;
+        }
+        
+        .plus-btn {
+            border-color: #00ffcc;
+            color: #00ffcc;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        
+        .plus-btn:hover {
+            background-color: #00ffcc;
+            color: #0d0d0d;
+            box-shadow: 0 0 20px #00ffcc;
+        }
     </style>
 </head>
 <body>
@@ -402,6 +439,12 @@
         updateCart();
     }
 
+        // Функція для додавання кількості товару
+    function addOneToCart(index) {
+        cart[index].quantity += 1;
+        updateCart();
+    }
+
     function updateCart() {
         const cartItemsDiv = document.getElementById("cart-items");
         cartItemsDiv.innerHTML = '';
@@ -412,7 +455,8 @@
             cartItemsDiv.innerHTML += `
                 <div class="cart-item">
                     <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
-                    <button onclick="removeOneFromCart(${index})">-1</button>
+                    <button class="cart-btn minus-btn" onclick="removeOneFromCart(${index})">-1</button>
+                    <button class="cart-btn plus-btn" onclick="addOneToCart(${index})">+1</button>
                 </div>`;
         });
 
