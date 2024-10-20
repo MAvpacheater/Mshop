@@ -142,34 +142,21 @@
             font-weight: bold;
             text-shadow: 0 0 10px #00ffcc;
         }
-        #telegram-login-button {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        #telegram-login-button iframe {
-            border-radius: 5px;
-            box-shadow: 0 0 10px #00ffcc;
-        }
-
     </style>
 </head>
 <body>
-
 <!-- Гамбургер меню -->
 <button id="menu-toggle" onclick="openMenu()">☰</button>
 
+<!-- Бокове меню -->
 <div id="side-menu">
     <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
     <a href="javascript:void(0)" onclick="showCategory('new')">Новинки</a>
     <a href="javascript:void(0)" onclick="showCategory('keychains')">Брелки</a>
     <a href="javascript:void(0)" onclick="showCategory('swords')">Мечі</a>
     <a href="javascript:void(0)" onclick="showCategory('figures')">Фігурки</a>
-    <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> 
-    <a href="javascript:void(0)" onclick="showCategory('cabinet')">Кабінет</a>
+    <a href="javascript:void(0)" onclick="showCategory('cart')">Корзина</a> <!-- Кнопка для відображення корзини -->
 </div>
-
 
 <!-- Категорія Корзина -->
 <div id="cart" class="category">
@@ -177,23 +164,6 @@
     <div id="cart-items"></div>
     <p id="total-price">Загальна сума: 0 грн</p>
 </div>
-<!-- Кабінет -->
-<!-- Кабінет -->
-<div id="cabinet" class="category">
-    <h2>Кабінет</h2>
-    <div id="telegram-login-button">
-        <script async src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="@M3dmodelsellbot" 
-            data-size="large" 
-            data-auth-url="https://mavpacheater.github.io/Mshop/"
-            data-request-access="write">
-        </script>
-    </div>
-    <p id="saved-items">Збережені товари: немає</p>
-    <button onclick="saveCart()">Зберегти товари</button>
-</div>
-
-
 <div class="category active" id="keychains">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
@@ -399,77 +369,64 @@
 
 
 
-
 <script>
-    // Функція для відкриття бокового меню
+    let cart = [];
+
     function openMenu() {
         document.getElementById("side-menu").style.width = "250px";
     }
 
-    // Функція для закриття бокового меню
     function closeMenu() {
         document.getElementById("side-menu").style.width = "0";
     }
 
-    // Кошик
-    let cart = [];
-    
-    // Функція для додавання товару в корзину
-    function addToCart(productName, price) {
-        const product = { name: productName, price: price };
-        cart.push(product);
-        displayCartItems();
-        updateTotalPrice();
-    }
-
-    // Відображення товарів у корзині
-    function displayCartItems() {
-        const cartItemsContainer = document.getElementById("cart-items");
-        cartItemsContainer.innerHTML = ""; // Очищаємо попередні товари
-
-        cart.forEach(item => {
-            const cartItem = document.createElement("div");
-            cartItem.innerHTML = `<p>${item.name}: ${item.price} грн</p>`;
-            cartItemsContainer.appendChild(cartItem);
+    function showCategory(category) {
+        const categories = document.querySelectorAll('.category');
+        categories.forEach(c => {
+            c.classList.remove('active');
         });
+        document.getElementById(category).classList.add('active');
+        if (category === 'cart') {
+            updateCart();  // Оновлюємо кошик при відкритті
+        }
+        closeMenu();
     }
 
-    // Оновлення загальної суми
-    function updateTotalPrice() {
-        const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+    function addToCart(item, price) {
+        const existingItem = cart.find(cartItem => cartItem.item === item);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ item, price, quantity: 1 });
+        }
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItemsDiv = document.getElementById("cart-items");
+        cartItemsDiv.innerHTML = '';
+        let totalPrice = 0;
+
+        cart.forEach((cartItem, index) => {
+            totalPrice += cartItem.price * cartItem.quantity;
+            cartItemsDiv.innerHTML += `
+                <div class="cart-item">
+                    <p>${cartItem.item} - ${cartItem.price} грн (шт: ${cartItem.quantity})</p>
+                    <button onclick="removeOneFromCart(${index})">-1</button>
+                </div>`;
+        });
+
         document.getElementById("total-price").innerText = `Загальна сума: ${totalPrice} грн`;
     }
 
-    // Перемикання між категоріями
-    function showCategory(categoryId) {
-        const categories = document.querySelectorAll(".category");
-        categories.forEach(category => {
-            if (category.id === categoryId) {
-                category.classList.add("active");
-            } else {
-                category.classList.remove("active");
-            }
-        });
-    }
-
-    // Збереження товарів у кабінеті
-    function saveCart() {
-        const savedItemsContainer = document.getElementById("saved-items");
-        if (cart.length > 0) {
-            savedItemsContainer.innerHTML = "Збережені товари:<br>" + cart.map(item => item.name).join(", ");
+    function removeOneFromCart(index) {
+        if (cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
         } else {
-            savedItemsContainer.innerHTML = "Збережені товари: немає";
+            cart.splice(index, 1);
         }
-    }
-
-    // Функція для входу через Telegram
-    function loginWithTelegram() {
-        // Логіка для входу через Telegram
-        // Використовуйте API для авторизації через Telegram
-        alert("Вхід через Telegram поки що не налаштовано.");
+        updateCart();
     }
 </script>
-
 </body>
 </html>
-
