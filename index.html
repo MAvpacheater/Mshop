@@ -178,8 +178,17 @@
     <p id="total-price">Загальна сума: 0 грн</p>
 </div>
 <!-- Кабінет -->
+<!-- Кабінет -->
 <div id="cabinet" class="category">
     <h2>Кабінет</h2>
+    <div id="telegram-login-button">
+        <script async src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="M3dmodelsellbot" 
+            data-size="large" 
+            data-auth-url="https://mavpacheater.github.io/Mshop/"
+            data-request-access="write">
+        </script>
+    </div>
     <p id="saved-items">Збережені товари: немає</p>
     <button onclick="saveCart()">Зберегти товари</button>
 </div>
@@ -389,20 +398,7 @@
 
 
 
-<!-- Кабінет -->
-<div id="cabinet" class="category">
-    <h2>Кабінет</h2>
-    <div id="telegram-login-button">
-        <script async src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="M3dmodelsellbot" 
-            data-size="large" 
-            data-auth-url="https://mavpacheater.github.io/Mshop/"
-            data-request-access="write">
-        </script>
-    </div>
-    <p id="saved-items">Збережені товари: немає</p>
-    <button onclick="saveCart()">Зберегти товари</button>
-</div>
+
 
 <script>
     // Функція для відкриття бокового меню
