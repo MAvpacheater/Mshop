@@ -142,7 +142,7 @@
             font-weight: bold;
             text-shadow: 0 0 10px #00ffcc;
         }
-    .cart-btn {
+        .cart-btn {
         background-color: transparent;
         color: #fff;
         border: 2px solid #00ffcc;
@@ -153,7 +153,7 @@
         width: 60px; /* Фіксуємо ширину кнопки */
         transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         margin: 5px; /* Додаємо відступи між кнопками */
-    }
+        }
     
         .cart-btn:hover {
             transform: translateY(-3px);
@@ -201,9 +201,8 @@
             border-radius: 5px;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        
-            /* Модальне вікно для зображень */
-        .modal {
+                /* Стиль для модального вікна */
+            .modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -212,46 +211,53 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
             background-color: rgba(0,0,0,0.9);
-        }
-        
-        .modal-content {
+            }
+            .modal-content {
+            position: relative;
             margin: auto;
+            padding: 0;
+            width: 80%;
+            max-width: 700px;
+            }
+            .modal-images img {
+            width: 100%;
+            display: none;
+            }
+            .modal-images img.active {
             display: block;
-            max-width: 80%;
-        }
-        
-        .close {
+            }
+            .close {
             position: absolute;
-            top: 15px;
-            right: 35px;
+            top: 20px;
+            right: 25px;
             color: white;
-            font-size: 40px;
+            font-size: 35px;
             font-weight: bold;
             cursor: pointer;
-        }
-        
-        .gallery {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .gallery-thumbnail {
-            width: 60px;
-            height: 60px;
-            margin: 5px;
+            }
+            .prev, .next {
             cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .gallery-thumbnail:hover {
-            border: 2px solid white;
-        }
-
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            }
+            .prev {
+            left: 0;
+            }
+            .next {
+            right: 0;
+            }
     </style>
+
+
 </head>
 <body>
 <!-- Гамбургер меню -->
@@ -273,10 +279,23 @@
     <div id="cart-items"></div>
     <p id="total-price">Загальна сума: 0 грн</p>
 </div>
+<div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <div class="modal-images" id="modalImages">
+            <!-- Тут будуть зображення товару -->
+        </div>
+        <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+        <a class="next" onclick="changeImage(1)">&#10095;</a>
+    </div>
+</div>
+
+
+    
 <div class="category active" id="keychains">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://cdn.thingiverse.com/renders/82/0e/ee/cc/c5/6dd715432dc2e8cf228afaa79f2b03a8_display_large.jpg" alt="Фотоапарат" onclick="openImageGallery(['https://cdn.thingiverse.com/renders/82/0e/ee/cc/c5/6dd715432dc2e8cf228afaa79f2b03a8_display_large.jpg', 'https://example.com/image2.jpg'], 'https://cdn.thingiverse.com/renders/82/0e/ee/cc/c5/6dd715432dc2e8cf228afaa79f2b03a8_display_large.jpg')">
+            <img src="https://cdn.thingiverse.com/renders/82/0e/ee/cc/c5/6dd715432dc2e8cf228afaa79f2b03a8_display_large.jpg" alt="Фотоапарат">
             <h3>Фотоапарат</h3>
             <p>Ціна: 20 грн</p>
             <button onclick="addToCart('Фотоапарат', 20)">Додати в корзину</button>
@@ -444,10 +463,10 @@
 <div id="swords" class="category">
     <div class="product-grid" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div class="product" style="width: calc(50% - 20px);">
-            <img src="https://makerworld.bblmw.com/makerworld/model/USe76f9652e3ad0b/design/2023-12-26_ce396bb884b56.jpg?x-oss-process=image/resize,w_1000/format,webp" alt="Катана V1">
+            <img src="https://drive.google.com/uc?export=view&id=1kCm6rlRNXgkoVqMDEENtTQC7Wq6Qb9Ro" alt="Катана V1" onclick="openModal('katanaV1')">
             <h3>Катана V1</h3>
             <p>Ціна: 150 грн</p>
-            <button onclick="addToCart(' Катана V1', 150)">Додати в корзину</button>
+            <button onclick="addToCart('Катана V1', 150)">Додати в корзину</button>
         </div>
         <div class="product" style="width: calc(50% - 20px);">
             <img src="https://makerworld.bblmw.com/makerworld/model/US860131070d870b/design/2024-03-09_80f8b4c0218e1.png?x-oss-process=image/resize,w_1000/format,webp" alt="Катана V2">
@@ -605,34 +624,51 @@
         }
         updateCart();
     }
-    function openImageGallery(images, mainImage = null) {
-            document.getElementById("image-modal").style.display = "block";
-            const modalImg = document.getElementById("modal-img");
-            const gallery = document.getElementById("image-gallery");
-        
-            // Оновлення основного зображення
-            if (mainImage) {
-                modalImg.src = mainImage;
-            } else {
-                modalImg.src = images[0];
-            }
-        
-            // Очищення галереї та додавання зображень
-            gallery.innerHTML = '';
-            images.forEach((image) => {
-                const imgElement = document.createElement('img');
-                imgElement.src = image;
-                imgElement.classList.add('gallery-thumbnail');
-                imgElement.onclick = function() {
-                    modalImg.src = image;
-                };
-                gallery.appendChild(imgElement);
-            });
+        function showSubCategory(subCategory) {
+        const subCategories = document.querySelectorAll('.sub-category');
+        subCategories.forEach(sub => {
+            sub.style.display = 'none';
+        });
+        document.getElementById(subCategory).style.display = 'block';
+    }
+    
+    let currentImageIndex = 0;
+    let images = [];
+
+    function openModal(productId) {
+        // Залежно від товару, додамо відповідні зображення
+        if (productId === 'katanaV1') {
+            images = [
+                'https://makerworld.bblmw.com/makerworld/model/US860131070d870b/design/2024-03-09_0d6ef27e38adc.png?x-oss-process=image/resize,w_1920/format,webp',
+                'https://makerworld.bblmw.com/makerworld/model/US860131070d870b/design/2024-03-09_80f8b4c0218e1.png?x-oss-process=image/resize,w_1000/format,webp',
+                'https://makerworld.bblmw.com/makerworld/model/US860131070d870b/design/2024-03-09_ef7aae71523bb.png?x-oss-process=image/resize,w_1920/format,webp'
+            ];
         }
-        
-    function closeImageModal() {
-            document.getElementById("image-modal").style.display = "none";
-        }
+        // Додай інші товари тут
+
+        // Показуємо перше зображення
+        showImage(0);
+        document.getElementById('imageModal').style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = "none";
+    }
+
+    function showImage(index) {
+        const modalImagesDiv = document.getElementById('modalImages');
+        modalImagesDiv.innerHTML = images.map((img, i) => 
+            `<img src="${img}" class="${i === index ? 'active' : ''}">`
+        ).join('');
+        currentImageIndex = index;
+    }
+
+    function changeImage(direction) {
+        currentImageIndex += direction;
+        if (currentImageIndex >= images.length) currentImageIndex = 0;
+        if (currentImageIndex < 0) currentImageIndex = images.length - 1;
+        showImage(currentImageIndex);
+    }
 </script>
 </body>
 </html>
